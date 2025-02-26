@@ -23,3 +23,14 @@ class Investments(models.Model):
 
     def __str__(self):
         return self.name
+
+class Dividends(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='dividends')
+    investment = models.ForeignKey(Investments, on_delete=models.CASCADE)
+    value = models.DecimalField(max_digits=12, decimal_places=2)
+    receipt_date = models.DateTimeField()                   
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)  
+
+    def __str__(self):
+        return f"Dividend {self.pk} - Investimento: {self.investment}"
