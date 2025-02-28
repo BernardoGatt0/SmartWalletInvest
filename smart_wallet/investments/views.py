@@ -21,8 +21,17 @@ class DividendsViewSet(viewsets.ModelViewSet):
     serializer_class = DividendsSerializer
     permission_classes = [IsAuthenticated]
 
-class WalletValueList(APIView):
+class WalletInvestmentValueView(APIView):
     permission_classes = [IsAuthenticated]
-    def get(self, request, user_id):
-        total = Investments.objects.filter(user_id=user_id).aggregate(total_value=Sum('value'))
-        return Response(total)
+
+    def get(self, request, id):
+        total_investments = Investments.objects.filter(user_id=id).aggregate(total_value=Sum('value'))
+        return Response(total_investments)
+
+
+class WalletDividendValueView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, id):
+        total_dividends = Dividends.objects.filter(user_id=id).aggregate(total_dividends=Sum('value'))
+        return Response(total_dividends)
